@@ -1,0 +1,160 @@
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+  paths:
+    exclude:
+      - docs/*
+      - README.md
+
+variables:
+  azureSubscription: 'NovaMart-Azure-ServiceConnection'
+  resourceGroupName: 'rg-novamart-staging'
+  webAppName: 'novamart-app-staging'
+  location: 'eastus'
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: BuildAndLint
+    displayName: '1. Build, Lint & Verify'
+    jobs:
+      - job: BuildJob
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '20.x'
+            displayName: 'Install Node.js 20.x'
+
+          - script: |
+              npm ci
+              npm run lint
+              npm run build
+            displayName: 'Install Dependencies & Build Project'
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(System.DefaultWorkingDirectory)/dist'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
+            displayName: 'Publish Build Artifacts'
+
+  - stage: AutomatedTesting
+    displayName: '2. Automated Multi-Tier Testing'
+    dependsOn: BuildAndLint
+    jobs:
+      - job: ApiTests
+        displayName: 'REST API Regression Suite'
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '20.x'
+          - script: |
+              npm ci
+              npm run dev &
+              npx wait-on http://localhost:3000/api/health
+              node api-tests/api-tests.js
+            displayName: 'Execute API Tests'
+
+      - job: CSharpSeleniumTests
+        displayName: 'C# .NET 8 NUnit Selenium Suite'
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: UseDotNet@2
+            inputs:
+              packageType: 'sdk'
+              version: '8.0.x'
+            displayName: 'Install .NET 8 SDK'
+
+          - script: |
+              sudo apt-get update && sudo apt-get install -y chromium chromium-driver
+              npm ci
+              npm run dev &
+              npx wait-on http://localhost:3000/api/health
+              dotnet test automation/NOVAMart.Automation.csproj --logger "trx;LogFileName=test-results.trx"
+            displayName: 'Execute C# Selenium Automation'
+
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: 'VSTest'
+              testResultsFiles: '**/test-results.trx'
+              failTaskOnFailedTests: true
+            displayName: 'Publish C# Test Results'
+
+          - task: PublishHtmlReport@1
+            condition: always()
+            inputs:
+              reportDir: '$(System.DefaultWorkingDirectory)/automation/Reports'
+            displayName: 'Publish C# HTML Test Report'
+
+      - job: JsSeleniumTests
+        displayName: 'JavaScript Selenium WebDriver Suite'
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '20.x'
+
+          - script: |
+              sudo apt-get update && sudo apt-get install -y chromium chromium-driver
+              npm ci
+              npm run dev &
+              npx wait-on http://localhost:3000/api/health
+              node js-automation/runner.js
+            displayName: 'Execute JS Selenium Tests'
+
+          - task: PublishHtmlReport@1
+            condition: always()
+            inputs:
+              reportDir: '$(System.DefaultWorkingDirectory)/js-automation/reports'
+            displayName: 'Publish JS HTML Test Report'
+
+  - stage: InfraDeploy
+    displayName: '3. Azure Infrastructure (Bicep)'
+    dependsOn: AutomatedTesting
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: BicepDeployJob
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: AzureResourceManagerTemplateDeployment@3
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: $(azureSubscription)
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: $(resourceGroupName)
+              location: $(location)
+              templateLocation: 'Linked artifact'
+              csmFile: '$(System.DefaultWorkingDirectory)/azure/main.bicep'
+              csmParametersFile: '$(System.DefaultWorkingDirectory)/azure/parameters.json'
+              deploymentMode: 'Incremental'
+            displayName: 'Provision Infrastructure via Bicep'
+
+  - stage: WebAppRelease
+    displayName: '4. Continuous Deployment (App Service)'
+    dependsOn: InfraDeploy
+    jobs:
+      - deployment: DeployWebApp
+        pool:
+          vmImage: $(vmImageName)
+        environment: 'staging'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebApp@1
+                  inputs:
+                    azureSubscription: $(azureSubscription)
+                    appType: 'webAppLinux'
+                    appName: $(webAppName)
+                    package: '$(Pipeline.Workspace)/drop'
+                    runtimeStack: 'NODE|20-lts'
+                    startUpCommand: 'npm run start'
+                  displayName: 'Deploy Application to Azure App Service'

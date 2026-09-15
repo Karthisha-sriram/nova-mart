@@ -1,0 +1,6 @@
+{
+  "name": "NOVA MART",
+  "description": "A complete, production-quality commercial e-commerce platform and portfolio application featuring React, Node.js REST APIs, SQL database, automated testing suites, and cloud CI/CD preparation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

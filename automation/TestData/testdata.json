@@ -1,0 +1,35 @@
+{
+  "users": {
+    "validUser": {
+      "email": "alex.sharma@example.com",
+      "password": "demo_hash_pwd_123",
+      "fullName": "Alex Sharma"
+    },
+    "adminUser": {
+      "email": "lead.qa@novamart.internal",
+      "password": "demo_hash_pwd_123",
+      "fullName": "Lead QA Admin"
+    },
+    "invalidUser": {
+      "email": "unknown.user@invalid-domain.com",
+      "password": "WrongPassword_999!"
+    }
+  },
+  "search": {
+    "validQuery": "NovaPods",
+    "noResultsQuery": "NonExistentUnobtainiumWidget999XYZ",
+    "categorySlug": "electronics"
+  },
+  "checkout": {
+    "fullName": "Alex Sharma",
+    "email": "alex.sharma@example.com",
+    "phone": "+91 98765 43210",
+    "street": "402 Silicon Heights, Tech Park Road",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "postalCode": "560100"
+  },
+  "pricing": {
+    "maxPriceFilter": 5000
+  }
+}

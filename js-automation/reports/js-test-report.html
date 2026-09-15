@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NOVA MART - JavaScript Selenium Test Automation Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --pass: #10b981;
+      --fail: #ef4444;
+      --border: #334155;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      margin: 0;
+      padding: 32px 16px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 32px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    h1 {
+      margin: 0 0 6px 0;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .meta {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 24px;
+    }
+    .stat-card .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 900;
+    }
+    .stat-card.pass .value { color: var(--pass); }
+    .stat-card.fail .value { color: var(--fail); }
+    .stat-card.rate .value { color: var(--accent); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 13px;
+    }
+    th {
+      background: #1e293b;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    tr:not(:last-child) td {
+      border-bottom: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .badge.passed {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--pass);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge.failed {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--fail);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    pre.error-log {
+      background: #090d16;
+      color: #fca5a5;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      margin-top: 8px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>NOVA MART &mdash; JavaScript Selenium Suite</h1>
+        <div class="meta">Automated End-to-End Regression Execution Report &bull; Virtusa Standards Compliant</div>
+      </div>
+      <div class="meta" style="text-align: right;">
+        <div><strong>Framework:</strong> Selenium WebDriver 4.x (JavaScript)</div>
+        <div><strong>Execution Date:</strong> 9/15/2026, 7:43:55 AM</div>
+      </div>
+    </header>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Total Tests</div>
+        <div class="value">10</div>
+      </div>
+      <div class="stat-card pass">
+        <div class="label">Passed</div>
+        <div class="value">10</div>
+      </div>
+      <div class="stat-card fail">
+        <div class="label">Failed</div>
+        <div class="value">0</div>
+      </div>
+      <div class="stat-card rate">
+        <div class="label">Pass Rate</div>
+        <div class="value">100%</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Execution Time</div>
+        <div class="value">56.81s</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 50px;">#</th>
+          <th>Test Case Scenario</th>
+          <th style="width: 120px;">Status</th>
+          <th style="width: 110px;">Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">1</td>
+          <td>
+            <strong>TC_JS_01: Verify Home Page loads branding and product catalog</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">2328 ms</td>
+        </tr>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">2</td>
+          <td>
+            <strong>TC_JS_02: Verify customer sign-in with valid demo credentials</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">19317 ms</td>
+        </tr>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">3</td>
+          <td>
+            <strong>TC_JS_03: Verify customer sign-in with invalid credentials displays error</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">20527 ms</td>
+        </tr>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">4</td>
+          <td>
+            <strong>TC_JS_04: Verify product search filters catalog correctly</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">2465 ms</td>
+        </tr>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">5</td>
+          <td>
+            <strong>TC_JS_05: Verify product detail page renders specifications and pricing</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">605 ms</td>
+        </tr>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">6</td>
+          <td>
+            <strong>TC_JS_06: Verify product quantity adjustment controls</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">1219 ms</td>
+        </tr>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">7</td>
+          <td>
+            <strong>TC_JS_07: Verify adding product to cart updates session cart</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">1884 ms</td>
+        </tr>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">8</td>
+          <td>
+            <strong>TC_JS_08: Verify shopping cart displays items and line totals</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">568 ms</td>
+        </tr>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">9</td>
+          <td>
+            <strong>TC_JS_09: Verify product wishlist toggle</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">1313 ms</td>
+        </tr>
+        
+        <tr>
+          <td style="color: var(--text-muted); font-weight: 700;">10</td>
+          <td>
+            <strong>TC_JS_10: [REGRESSION] Complete E2E Order Placement Flow</strong>
+            
+          </td>
+          <td>
+            <span class="badge passed">PASSED</span>
+          </td>
+          <td style="color: var(--text-muted); font-family: monospace;">5695 ms</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-09-15T07:43:31.522Z",
+  "concurrency": 20,
+  "throughputReqSec": 268.5,
+  "endpoints": [
+    {
+      "endpoint": "GET /api/health",
+      "requests": 34,
+      "avgMs": 62.8,
+      "p50Ms": 51,
+      "p95Ms": 174,
+      "p99Ms": 329,
+      "errors": 0
+    },
+    {
+      "endpoint": "GET /api/products?page=1&limit=12",
+      "requests": 34,
+      "avgMs": 58.3,
+      "p50Ms": 54,
+      "p95Ms": 103,
+      "p99Ms": 351,
+      "errors": 0
+    },
+    {
+      "endpoint": "GET /api/products?search=NovaPods",
+      "requests": 33,
+      "avgMs": 52.6,
+      "p50Ms": 40,
+      "p95Ms": 126,
+      "p99Ms": 156,
+      "errors": 0
+    },
+    {
+      "endpoint": "GET /api/products/1",
+      "requests": 33,
+      "avgMs": 63,
+      "p50Ms": 52,
+      "p95Ms": 159,
+      "p99Ms": 371,
+      "errors": 0
+    },
+    {
+      "endpoint": "GET /api/categories",
+      "requests": 33,
+      "avgMs": 53.4,
+      "p50Ms": 42,
+      "p95Ms": 114,
+      "p99Ms": 155,
+      "errors": 0
+    },
+    {
+      "endpoint": "GET /api/admin/stats",
+      "requests": 33,
+      "avgMs": 62,
+      "p50Ms": 62,
+      "p95Ms": 114,
+      "p99Ms": 245,
+      "errors": 0
+    }
+  ]
+}
