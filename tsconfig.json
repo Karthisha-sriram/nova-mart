@@ -22,5 +22,11 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
-  }
+  },
+  "exclude": [
+    "playwright-tests",
+    "pytest-tests",
+    "robot-tests",
+    "node_modules"
+  ]
 }
