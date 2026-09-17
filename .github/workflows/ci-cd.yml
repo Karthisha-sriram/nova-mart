@@ -7,7 +7,6 @@ on:
     branches: [ main, master ]
 
 jobs:
-  # Job 1: Build, Lint & Playwright Verification
   build-and-lint:
     name: Build, Lint & Unit Tests
     runs-on: ubuntu-latest
@@ -58,7 +57,6 @@ jobs:
           name: novamart-dist
           path: dist/
 
-  # Job 2: Automated C# Selenium Regression Testing
   automated-selenium-tests:
     name: Selenium WebDriver & Regression Test Suite
     needs: build-and-lint
@@ -88,9 +86,8 @@ jobs:
 
       - name: Execute C# NUnit Selenium Suite
         run: |
-          cd automation
-          dotnet restore
-          dotnet test --logger "trx;LogFileName=test_results.trx" --verbosity normal
+          dotnet restore automation/NOVAMart.Automation.csproj
+          dotnet test automation/NOVAMart.Automation.csproj --logger "trx;LogFileName=test_results.trx" --verbosity normal
 
       - name: Publish Test Results Report
         uses: actions/upload-artifact@v4
@@ -99,7 +96,6 @@ jobs:
           name: selenium-test-results
           path: automation/**/test_results.trx
 
-  # Job 3: Cloud Deployment (Microsoft Azure Static Web Apps & App Service)
   deploy-to-azure:
     name: Deploy to Microsoft Azure
     needs: [build-and-lint, automated-selenium-tests]
@@ -125,7 +121,6 @@ jobs:
           app_location: "/"
           output_location: "dist"
 
-  # Job 4: Optional AWS Cloud Deployment Pipeline (ECS / S3 + CloudFront)
   deploy-to-aws:
     name: Deploy to AWS (S3 & App Runner)
     needs: [build-and-lint, automated-selenium-tests]
