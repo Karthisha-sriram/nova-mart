@@ -68,12 +68,12 @@ jobs:
           sudo apt-get install -y google-chrome-stable
 
       - name: 10. Restore C# Dependencies
-        run: dotnet restore automation/NovaMart.Tests.csproj
+       run: dotnet restore automation/NOVAMart.Automation.csproj
 
       - name: 11. Run C# Selenium Automated Regression Tests
         id: run_tests
         run: |
-          dotnet test automation/NovaMart.Tests.csproj \
+          dotnet test automation/NOVAMart.Automation.csproj \
             --configuration Release \
             --logger "trx;LogFileName=TestResults.trx" \
             --logger "console;verbosity=normal"
