@@ -72,13 +72,13 @@ namespace NOVAMart.Automation.Pages
 
         public string GetFirstProductTitle()
         {
-            var titles = Driver.FindElements(By.CssSelector("[data-testid='product-card'] h3, [data-testid='product-card-title']"));
+            var titles = Driver.FindElements(By.CssSelector("[data-testid='product-title']"));
             return titles.FirstOrDefault()?.Text.Trim() ?? string.Empty;
         }
 
         public decimal GetFirstProductPrice()
         {
-            var priceElem = Driver.FindElements(By.CssSelector("[data-testid='product-card-price'], [data-testid='product-card'] .font-extrabold")).FirstOrDefault();
+            var priceElem = Driver.FindElements(By.CssSelector("[data-testid='product-price']")).FirstOrDefault();
             if (priceElem != null)
             {
                 var text = priceElem.Text.Replace("₹", "").Replace(",", "").Trim();
@@ -87,7 +87,7 @@ namespace NOVAMart.Automation.Pages
             return 0m;
         }
 
-        public void ClickFirstProduct()
+               public void ClickFirstProduct()
         {
             var card = WaitHelper.WaitForElementClickable(Driver, By.CssSelector("[data-testid='product-card'] a"));
             card.Click();
@@ -96,14 +96,14 @@ namespace NOVAMart.Automation.Pages
 
         public void AddFirstProductToCart()
         {
-            var btn = WaitHelper.WaitForElementClickable(Driver, By.CssSelector("[data-testid='product-card'] [data-testid='add-to-cart-btn'], [data-testid='product-card'] button"));
+            var btn = WaitHelper.WaitForElementClickable(Driver, By.CssSelector("[data-testid='product-card'] [data-testid='add-to-cart']"));
             btn.Click();
             System.Threading.Thread.Sleep(500);
         }
 
         public void AddFirstProductToWishlist()
         {
-            var btn = WaitHelper.WaitForElementClickable(Driver, By.CssSelector("[data-testid='product-card'] [data-testid='wishlist-btn'], [data-testid='product-card'] button[aria-label*='wishlist']"));
+            var btn = WaitHelper.WaitForElementClickable(Driver, By.CssSelector("[data-testid='product-card'] [data-testid='add-to-wishlist']"));
             btn.Click();
             System.Threading.Thread.Sleep(500);
         }
