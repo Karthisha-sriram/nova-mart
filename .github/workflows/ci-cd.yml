@@ -125,7 +125,7 @@ jobs:
     name: Deploy to AWS (S3 & App Runner)
     needs: [build-and-lint, automated-selenium-tests]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && secrets.AWS_REGION != ''
+    if: github.ref == 'refs/heads/main'
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
 
