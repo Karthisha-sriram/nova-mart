@@ -67,8 +67,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      - name: 10. Restore C# Dependencies
-       run: dotnet restore automation/NOVAMart.Automation.csproj
+           - name: 10. Restore C# Dependencies
+        run: dotnet restore automation/NOVAMart.Automation.csproj
 
       - name: 11. Run C# Selenium Automated Regression Tests
         id: run_tests
