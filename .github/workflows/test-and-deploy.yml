@@ -114,7 +114,7 @@ jobs:
   deploy-to-azure:
     name: Deploy to Azure Cloud
     needs: build-and-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: false  # Disabled until Azure secrets are configured
     runs-on: ubuntu-latest
 
     steps:
