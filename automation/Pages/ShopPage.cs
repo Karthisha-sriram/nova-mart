@@ -87,13 +87,19 @@ namespace NOVAMart.Automation.Pages
             return 0m;
         }
 
-        public void ClickFirstProduct()
+               public void ClickFirstProduct()
         {
             var card = WaitHelper.WaitForElementClickable(Driver, By.CssSelector("[data-testid='product-card'] a"));
             card.Click();
             WaitHelper.WaitForUrlContains(Driver, "/product/");
         }
-	
+
+        public void AddFirstProductToCart()
+        {
+            var btn = WaitHelper.WaitForElementClickable(Driver, By.CssSelector("[data-testid='product-card'] [data-testid='add-to-cart-btn']"));
+            btn.Click();
+            System.Threading.Thread.Sleep(500);
+        }
 
         public void AddFirstProductToWishlist()
         {
