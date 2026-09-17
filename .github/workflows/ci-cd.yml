@@ -7,7 +7,7 @@ on:
     branches: [ main, master ]
 
 jobs:
-  # Job 1: Build & Verify Web Application
+  # Job 1: Build, Lint & Playwright Verification
   build-and-lint:
     name: Build, Lint & Unit Tests
     runs-on: ubuntu-latest
@@ -32,6 +32,25 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+
+      - name: Install Playwright Test Dependencies
+        run: |
+          cd playwright-tests
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run Playwright Tests
+        run: |
+          cd playwright-tests
+          npm test
+
+      - name: Upload Playwright Test Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-test-report
+          path: playwright-tests/playwright-report/
+          if-no-files-found: ignore
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
