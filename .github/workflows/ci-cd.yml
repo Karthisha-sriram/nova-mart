@@ -38,6 +38,12 @@ jobs:
         env:
           NODE_ENV: production
 
+      - name: Start Application Server
+        run: |
+          npm start &
+          sleep 5
+          curl -I http://localhost:3000/api/health
+
       - name: Run Playwright Tests
         run: |
           cd playwright-tests
