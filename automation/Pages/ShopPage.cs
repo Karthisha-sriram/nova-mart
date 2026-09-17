@@ -93,13 +93,7 @@ namespace NOVAMart.Automation.Pages
             card.Click();
             WaitHelper.WaitForUrlContains(Driver, "/product/");
         }
-
-        public void AddFirstProductToCart()
-        {
-            var btn = WaitHelper.WaitForElementClickable(Driver, By.CssSelector("[data-testid='product-card'] [data-testid='add-to-cart-btn'], [data-testid='product-card'] button"));
-            btn.Click();
-            System.Threading.Thread.Sleep(500);
-        }
+	
 
         public void AddFirstProductToWishlist()
         {
